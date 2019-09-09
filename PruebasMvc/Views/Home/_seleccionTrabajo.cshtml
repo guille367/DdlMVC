@@ -1,0 +1,48 @@
+﻿@using PruebasMvc.Models
+@model Profesion
+
+<script>
+    
+    function MoveListBoxItem(fromId, toId) {
+        $("#" + fromId + " option:selected").remove().appendTo("#" + toId);
+    }
+
+    // En el cambio del dropdown, le pega asincronicamente a la ruta
+    // con el parametro del valor que selecciono
+    // y 
+    function ChangeDDL(rubro) {
+
+        $.get({
+            url: '/Home/RenderSeleccionTrabajos',
+            data: { rubro },
+            success: function (response) {
+
+                // con la respuesta del servidor, reemplaza el contenido del elemento con id 'selecciontrabajos'
+                $('#selecciontrabajos').html(response)
+                // seteo el valor del select para mantener el valor
+                $('#selectrubro').val(rubro)
+            }
+        })
+    }
+</script>
+
+<div id="selecciontrabajos">
+    @Html.DropDownListFor(m => m.Id, new SelectList((List<string>)TempData["Rubros"]), new { onChange = "ChangeDDL(this.value)", id = "selectrubro" })
+
+    <table width="100%" border="0">
+        <tr>
+            <td style="width:48%">Un-Selected</td>
+            <td rowspan="2" style="width:4%">
+                <input type="button" value=">>" onclick="javascript: MoveListBoxItem('UnSelectedItem', 'SelectedCountryID')" /><br />
+                <input type="button" value="<<" onclick="javascript: MoveListBoxItem('SelectedCountryID', 'UnSelectedItem')" />
+            </td>
+            <td>Selected</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.ListBox("", new MultiSelectList((List<Trabajo>)TempData["PosiblesEmpleos"], "Id", "Descripcion"), new { @style = "width:100%", id = "UnSelectedItem" })
+            </td>
+            <td>@Html.ListBoxFor(m => m.TrabajosId, new MultiSelectList(Model.Trabajos, "Id", "Descripcion"), new { @style = "width:100%", id = "SelectedCountryID" })</td>
+        </tr>
+    </table>
+</div>

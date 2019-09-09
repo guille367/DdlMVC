@@ -1,0 +1,15 @@
+﻿@using PruebasMvc.Models
+@model Persona
+
+@using (Html.BeginForm("Guardar", "Home", FormMethod.Post))
+{
+    <h1>@Model.Nombre</h1>
+
+    <hr />
+
+    { Html.RenderAction("RenderSeleccionTrabajos", "Home"); }
+
+    <button type="submit" id="submitear">submitear</button>
+}
+
+

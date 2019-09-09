@@ -1,0 +1,26 @@
+﻿@model PruebasMvc.Models.Empleado
+
+@{
+    ViewBag.Title = "Contact";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<h1> @Model.Id </h1>
+@Model.Nombre
+
+@Html.ValidationSummary(false, "")
+
+@using (Html.BeginForm("Nuevo", "Home"))
+{
+    <div>
+        @Html.LabelFor(model => model.Nombre)
+        @Html.TextBoxFor(model => model.Nombre, new { @class = "text" })
+        @Html.ValidationMessageFor(model => model.Nombre)
+    </div>
+
+    @Html.HiddenFor(model => model.Id)
+    <button type="submit">Nuevo</button>
+}
+
+@Scripts.Render("~/pruebasbundle")
